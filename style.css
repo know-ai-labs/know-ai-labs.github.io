@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5 {
 
 /* Main Content Area */
 main {
-    max-width: 37.5rem;
+    max-width: 65rem;
     /* 600px in rem */
     margin: 0 auto;
     /* Centering the content */
@@ -34,13 +34,24 @@ main {
 }
 
 /* Card Style */
+.card-holder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
 .card {
-    width: calc(25% - 2rem);
-    /* 1/4 of the main content area minus padding */
-    margin: 1rem;
+    width: calc(25% - 1rem);
+    /* Fixed width for each card */
+    min-width: 12rem;
     padding: 1rem;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    cursor: pointer;
+    /* Ensure padding and border are included in the width */
+}
+.card:hover {
+    background-color: yellow;
 }
