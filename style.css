@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=Besley:ital,wght@0,400..900;1,400..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=UnifrakturCook:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=Neonderthaw&family=Syne:wght@400..800&family=Tilt+Neon&display=swap');
+
+
+html  {
+    background-color: aliceblue;
+    margin:0;
+}
 body * {
     font-family: "Alegreya";
     font-size: 1.5rem;
     font-weight: 400;
+    color: #111;
+    margin:0.2rem;
 }
 
 h1, h2, h3, h4, h5 {
@@ -10,16 +18,27 @@ h1, h2, h3, h4, h5 {
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
+    color:#111;
+}
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-right: 16rem;
+    line-height: 1.2;
 }
 
 /* Main Content Area */
-main {
+main, .top  {
     max-width: 65rem;
     /* 600px in rem */
     margin: 0 auto;
     /* Centering the content */
-    padding: 1rem;
+    padding: 0.5rem;
     /* Adding some padding */
+}
+header {
+    background-color: yellow;
+    width:99vw;
 }
 
 /* Two Column Layout */
@@ -44,14 +63,18 @@ main {
     /* Fixed width for each card */
     min-width: 12rem;
     padding: 1rem;
-    background-color: #f0f0f0;
+    color: aliceblue;
+    background-color: #222;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     cursor: pointer;
+    font-family: "libre franklin";
+    font-weight: 600;
     /* Ensure padding and border are included in the width */
 }
 .card:hover {
     background-color: yellow;
+    color: #111;
 }
