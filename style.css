@@ -61,8 +61,8 @@ header {
 }
 .news-item-bar {
     display: block;
-    width: 5rem;
-    height: 2rem;
+    width: 7rem;
+    height: 1.5rem;
     background-color: var(--yellow);
 }
 
@@ -299,4 +299,22 @@ h3:focus {
 
 .neon span:nth-child(8) {
     animation: letter-flicker-2 2s infinite;
+}
+
+/* Icons */
+.icon {
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.5rem;
+    display: inline-block;
+    
+}
+.big {
+    font-size: 3rem;
+}
+.big-outdent {
+    margin-left: -3.2rem;
+}
+
+.float-left {
+    float:left;
 }
