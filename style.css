@@ -137,7 +137,7 @@ h3 {
 }
 h3, h3 * {
     font-family: 'Tilt Neon';
-    font-size: 5rem;
+    font-size: 6rem;
 }
 
 h3::-moz-selection {
@@ -340,4 +340,8 @@ h3:focus {
 }
 .off-yellow {
     color: var(--off-yellow);
+}
+.legend {
+    max-width: 32rem;
+    border-bottom: 1px #111 dotted;
 }
