@@ -2,6 +2,7 @@
 :root {
     /* Base font size */
     font-size: 1.1rem;
+    line-height: 1.6;
 
     /* Set neon color */
     --neon-text-color: #f40;
@@ -81,12 +82,13 @@ header {
 .card-holder {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 .card {
-    width: calc(25% - 0.5rem);
+    width: calc(25% - 0.2rem);
     /* Fixed width for each card */
     min-width: 8rem;
+    max-width: 12rem;
     padding: 01rem;
     color: aliceblue;
     background-color: #222;
