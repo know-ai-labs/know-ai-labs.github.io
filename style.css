@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=Syne:wght@400..800&family=Tilt+Neon&family=Sono:wght@200..800&family=Syne:wght@400..800&family=Tilt+Neon&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=M+PLUS+1+Code:wght@100..700&family=Sono:wght@200..800&family=Syne:wght@400..800&family=Tilt+Neon&display=swap');
 :root {
     /* Base font size */
     font-size: 1.1rem;
@@ -7,6 +6,7 @@
     /* Set neon color */
     --neon-text-color: #f40;
     --neon-border-color: #08f;
+    --yellow: #FCF237;
 }
 
 html  {
@@ -24,7 +24,7 @@ body * {
 h1, h2, h5 {
     font-family: "Libre Franklin";
     font-optical-sizing: auto;
-    font-weight: 500;
+    font-weight: 700;
     font-style: normal;
     color:#111;
 }
@@ -35,7 +35,7 @@ h1 {
     line-height: 1.2;
 }
 h4 {
-    font-family: 'Sono';
+    font-family: 'M PLUS 1 Code', 'Courier New', Courier, monospace;
     font-size: 1.1rem;
     font-weight: 500;
     color: #111;
@@ -47,18 +47,23 @@ main, .top  {
     /* 600px in rem */
     margin: 0 auto;
     /* Centering the content */
-    padding: 0.5rem;
-    /* Adding some padding */
+    padding: 1rem 0;
 }
 header {
-    background-color: yellow;
-    width:99vw;
+    background-color: var(--yellow);
+    width:100%;
 }
 
 .news {
     width: 100%;
     padding: 01rem;
-    border: 4px dotted silver;
+    border: 4px dotted #111;
+}
+.news-item-bar {
+    display: block;
+    width: 5rem;
+    height: 2rem;
+    background-color: var(--yellow);
 }
 
 /* Two Column Layout */
@@ -79,10 +84,10 @@ header {
     gap: 1rem;
 }
 .card {
-    width: calc(25% - 1rem);
+    width: calc(25% - 0.5rem);
     /* Fixed width for each card */
-    min-width: 12rem;
-    padding: 1rem;
+    min-width: 8rem;
+    padding: 01rem;
     color: aliceblue;
     background-color: #222;
     border: 1px solid #ccc;
@@ -92,10 +97,11 @@ header {
     cursor: pointer;
     font-family: "libre franklin";
     font-weight: 600;
+    border-radius: 0.5rem;
     /* Ensure padding and border are included in the width */
 }
 .card:hover {
-    background-color: yellow;
+    background-color: var(--yellow);
     color: #111;
 }
 /* Know AI flicker */
