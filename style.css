@@ -53,7 +53,9 @@ h4 {
     font-family: 'Libre Franklin';
     font-weight: 700;
     color: #333;
-    font-size: inherit;
+}
+p {
+    padding-bottom: 2rem;
 }
 
 /* Main Content Area */
