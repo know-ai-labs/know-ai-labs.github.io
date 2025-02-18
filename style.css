@@ -8,6 +8,7 @@
     --neon-text-color: #f40;
     --neon-border-color: #08f;
     --yellow: #FCF237;
+    --off-yellow: #FFC72C;
 }
 
 html  {
@@ -46,6 +47,13 @@ h4 {
     font-size: 6rem;
     font-style: italic;
     line-height: 1;
+}
+
+.pop {
+    font-family: 'Libre Franklin';
+    font-weight: 700;
+    color: #333;
+    font-size: inherit;
 }
 
 /* Main Content Area */
@@ -91,10 +99,10 @@ header {
     gap: 0.5rem;
 }
 .card {
-    width: calc(25% - 0.2rem);
+    width: calc(25% - 0.1rem);
     /* Fixed width for each card */
-    min-width: 8rem;
-    max-width: 12rem;
+    min-width: 9rem;
+    max-width: 15rem;
     padding: 01rem;
     color: aliceblue;
     background-color: #222;
@@ -105,7 +113,6 @@ header {
     cursor: pointer;
     font-family: "libre franklin";
     font-weight: 600;
-    border-radius: 0.5rem;
     /* Ensure padding and border are included in the width */
 }
 .card:hover {
@@ -117,7 +124,7 @@ h3 {
     font-weight: 200;
     font-style: normal;
     color: #fff;
-    border: 0.4rem solid #fff;
+    border: 0.2rem solid #fff;
     border-radius: 2rem;
     animation: flicker 1.5s infinite alternate;
     text-align: center;
@@ -320,7 +327,7 @@ h3:focus {
     font-style: normal;
 }
 .big {
-    font-size: 6rem;
+    font-size: 6.1rem;
 }
 .big-outdent {
     margin-left: -6.2rem;
@@ -328,4 +335,7 @@ h3:focus {
 
 .float-left {
     float:left;
+}
+.off-yellow {
+    color: var(--off-yellow);
 }
