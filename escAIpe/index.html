@@ -118,6 +118,7 @@ body {
     line-height: 1.2;
     margin: 0;
     padding: 0;
+  	margin-left: 0;
 }
 h2 {
   margin: 0 1rem 0 0;
@@ -126,10 +127,16 @@ h2 {
   color: #e0e0e0;
 }
 #ui-bar {
-  font-family: 'Workbench', 'Alegreya Sans', sans-serif;
+  display: none;
+  /*font-family: 'Workbench', 'Alegreya Sans', sans-serif;
   font-size: 1rem;
   color: #ccc;
-  width: 25rem;
+  width: 25rem;*/
+}
+#story {
+  margin: 0.4rem auto !important; /* Remove the left margin used for UI bar */
+  width: 96%;
+  max-width: 80rem;
 }
 strong {
   color: #0fff50;
@@ -258,7 +265,7 @@ strong {
 
 /* -- Phone menus --*/
 .menu {
-  width: 40rem;
+  width: 80%;
   border-radius: 0.75rem;
   overflow: hidden;
   padding: 0;
@@ -364,7 +371,7 @@ strong {
 /*    transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
 /*}
 
-.passage a:not(.card-button), .passage a:not(.card-button):visited {
+/*.passage a:not(.card-button), .passage a:not(.card-button):visited {
   color: #0fff50 !important;
   text-decoration: none;
 }
@@ -377,21 +384,21 @@ strong {
 }
 
 
-/* --- Special Passages (Sidebar, Caption, Footer) --- */
+/* --- Special Passages (Sidebar, Caption, Footer) 
 #sidebar {
-    background-color: #2c323c; /* Slightly lighter dark grey for sidebar */
+    background-color: #2c323c; 
     color: #e0e0e0;
-    font-family: 'Ysabeau', 'Alegreya Sans', sans-serif; /* Use Ysabeau for sidebar content */
-    border-left: 1px solid #4a4a4a; /* Separator from main content */
-    box-shadow: -3px 0 8px rgba(0,0,0,0.4); /* Deeper shadow for depth */
+    font-family: 'Ysabeau', 'Alegreya Sans', sans-serif; 
+    border-left: 1px solid #4a4a4a; 
+    box-shadow: -3px 0 8px rgba(0,0,0,0.4); 
 }
 
-/* Ensure sidebar content doesn't get too wide */
+/* Ensure sidebar content doesn't get too wide 
 #sidebar .passage {
-    max-width: 40rem; /* Adjust as needed */
-    margin: auto; /* Center content in sidebar */
+    max-width: 40rem; 
+    margin: auto; 
     padding: 0.2rem;
-}
+} */
 
 /* Notices */
 .notice {
@@ -1881,7 +1888,7 @@ Do you,
 &lt;div class=&#39;choices&#39;&gt;
 [[ → 💬 Ask Lou about the construction comment❓|lou-convo]]
 [[  → 🤫 Ride the elevator in companionable silence❓|fifth-floor]]&lt;/div&gt;</tw-passagedata><tw-passagedata pid="45" name="inbox" tags="" position="525,575" size="100,100">&lt;&lt;if visited(&quot;takenote&quot;) &gt; 0 &amp;&amp; visited(&quot;manual-entry&quot;)&gt;&gt;
-&lt;h1&gt;Ding, Ding, Ding! &lt;span class=&#39;icon&#39;&gt;🔔&lt;/span&gt; You Have Mail!&lt;/h1&gt;&lt;&lt;else&gt;&gt;&lt;h1&gt;🖥️ Workstation Alpha&lt;/h1&gt;&lt;&lt;/if&gt;&gt;
+&lt;h1&gt;Ding, Ding, Ding! &lt;span class=&#39;icon&#39;&gt;🔔&lt;/span&gt; You Have Mail!&lt;/h1&gt;&lt;&lt;else&gt;&gt;&lt;h1&gt;&amp;alpha; Workstation Alpha!&lt;/h1&gt;&lt;&lt;/if&gt;&gt;
 &lt;&lt;if visited(passage()) == 1 &gt;&gt;You made it! You fire up the desktop and open your email client to see .&amp;nbsp;.&amp;nbsp;.&lt;&lt;/if&gt;&gt;
 &lt;h1&gt;The &lt;span class=&#39;sc&#39;&gt;inbox&lt;/span&gt;!&lt;/h1&gt;
 No time like the present to smash through these.
