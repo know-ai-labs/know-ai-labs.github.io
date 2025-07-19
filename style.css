@@ -122,6 +122,23 @@ header {
     background-color: var(--yellow);
     color: #111;
 }
+ul {
+    list-style-type: none;
+    /* Remove default bullets */
+    padding: 0;
+    padding-left: 3rem;
+    padding-right: 10rem;
+    padding-bottom: 1rem;
+    margin: 0;
+}
+
+ul li:not(:last-child) {
+    border-bottom: 1px solid #999;
+    /* Subtle line under all li except the last one */
+    padding-bottom: 0.5rem;
+    /* Optional: Add some space below the line */
+}
+
 /* Know AI flicker */
 h3 {
     font-weight: 200;
