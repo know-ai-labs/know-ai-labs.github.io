@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Ysabeau+SC:wght@1..1000&family=Ysabeau:ital,wght@0,1..1000;1,1..1000&display=swap');
+
+body {
+    font-family: 'Ysabeau', 'Inter', sans-serif;
+    background-color: #f8fafc;
+    /* Light gray background */
+}
+
+/* Custom styles for the tile hover effect (optional, Tailwind handles most) */
+.tile-link {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.tile-link:hover {
+    transform: translateY(-5px);
+    /* Slight lift on hover */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* Larger shadow */
+}
+.sc {
+    font-family: 'Ysabeau SC';
+    font-size: inherit;
+}
+
+/* CSS for the shifting gradient hero section */
+#hero-section {
+    background: linear-gradient(270deg, #6366f1, #8b5cf6, #ec4899, #ef4444);
+    /* Define a wider gradient */
+    background-size: 400% 400%;
+    /* Make the background larger than the element */
+    animation: gradientShift 10s ease infinite;
+    /* Apply the animation */
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+        /* Start position */
+    }
+
+    50% {
+        background-position: 100% 50%;
+        /* Middle position */
+    }
+
+    100% {
+        background-position: 0% 50%;
+        /* Back to start, creating a loop */
+    }
+}
+.icon {
+    font-family: 'Material Symbols Outlined';
+    font-size: 2rem;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0.5;
+    transition: transform 0.4s, -webkit-grow 0.4s;
+
+}
+.big {
+    font-size: 3rem;
+}
+.icon,
+.icon * {
+    font-weight: 400;
+}
+.icon:hover {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
