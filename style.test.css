@@ -72,6 +72,9 @@ body {
 .big {
     font-size: 3rem;
 }
+.small {
+    font-size: 1.4rem;
+}
 .icon,
 .icon * {
     font-weight: 400;
