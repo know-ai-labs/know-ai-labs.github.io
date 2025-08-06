@@ -42,7 +42,14 @@ body {
     background-size: 400% 400%;
     animation: gradientShift 10s ease infinite;
 }
-
+.scale {
+    transition: transform 0.4s, -webkit-grow 0.4s;
+}
+.scale:hover {
+    
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
 
 @keyframes gradientShift {
     0% {
@@ -94,4 +101,8 @@ nav {
     .icon {
         font-size: 1rem;
     }
+}
+/* Copyright as-of date */
+.copyright-date::before {
+    content: "2025 08 01";
 }
