@@ -38,7 +38,7 @@ body {
 }
 
 #hero-TOS {
-    background: linear-gradient(270deg, #6c7b8d, #8d9bb3, #aab5c6, #c5d0de);
+    background: linear-gradient(270deg, #6c7b8d, #8d9bb3, #aab5c6, #8d9bb3);
     background-size: 400% 400%;
     animation: gradientShift 10s ease infinite;
 }
