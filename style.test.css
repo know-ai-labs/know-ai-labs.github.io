@@ -42,6 +42,13 @@ body {
     background-size: 400% 400%;
     animation: gradientShift 10s ease infinite;
 }
+
+#hero-manifesto {
+    background: linear-gradient(270deg, #4ade80, #bef264, #74C953, #D9FFB0);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+}
+
 .scale {
     transition: transform 0.4s, -webkit-grow 0.4s;
 }
