@@ -62,14 +62,22 @@ body {
     background-size: 400% 400%;
     animation: gradientShift 10s ease infinite;
 }
+#hero-retreat {
+    /*background: linear-gradient(to right, rgb(153, 246, 228), rgb(217, 249, 157));/*linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%);*/
+    background: rgb(0, 0, 128);
+    background: linear-gradient(159deg, rgba(0, 0, 128, 1) 0%, rgba(0, 191, 255, 1) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    
+}
 
 .scale {
-    transition: transform 0.4s, -webkit-grow 0.4s;
+    transition: transform 0.5s, -webkit-grow 0.5s;
 }
 .scale:hover {
     
-    -webkit-transform: scale(1.5);
-    transform: scale(1.5);
+    -webkit-transform: scale(1.4);
+    transform: scale(1.4);
 }
 
 @keyframes gradientShift {
@@ -90,18 +98,19 @@ body {
 }
 .icon {
     font-family: 'Material Symbols Outlined';
-    font-size: 2rem;
+    font-size: 1.5em;
     display: inline-block;
     vertical-align: middle;
     line-height: 0.5;
     transition: transform 0.4s, -webkit-grow 0.4s;
 
 }
+
 .big {
-    font-size: 3rem;
+    font-size: 3em;
 }
 .small {
-    font-size: 1.4rem;
+    font-size: 1.4em;
 }
 .icon,
 .icon * {
