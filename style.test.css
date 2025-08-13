@@ -37,7 +37,7 @@ body {
     animation: letterslide 5s infinite;
 }
 @keyframes letterslide {
-    50% {letter-spacing: 12px;}
+    50% {letter-spacing: 0.2em;}
     
 }
 
