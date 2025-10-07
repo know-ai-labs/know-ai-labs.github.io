@@ -39,7 +39,7 @@ h1 {
     line-height: 1.2;
 }
 h4 {
-    font-family: 'M PLUS 1 Code', 'Courier New', Courier, monospace;
+    font-family: "Libre Franklin", 'M PLUS 1 Code', 'Courier New', Courier, monospace;
     font-size: 1.1rem;
     font-weight: 500;
     color: #111;
@@ -80,8 +80,9 @@ header {
 }
 .news-item-bar {
     display: block;
-    width: 7rem;
-    height: 1.5rem;
+    margin-top: 1em;
+    width: 15em;
+    height: 0.7em;
     background-color: var(--yellow);
 }
 
