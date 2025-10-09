@@ -8,7 +8,7 @@
     font-weight: 400;
     color: #111;
     font-variant-numeric: tabular-nums;
-    --widthMax: 50em;
+    --widthMax: 40em;
 
     --bg0: #fafafa;
     --bg1: #F4FAF4;
@@ -146,7 +146,7 @@ h2, h4 {
     display: inline;
     background: #da291c;
     border-radius: 1em;
-    padding: 0.2em 0.8em;
+    padding: 0.1em 0.8em;
     color: white;
     font-weight: 700;
     margin-left: -0.3em;
