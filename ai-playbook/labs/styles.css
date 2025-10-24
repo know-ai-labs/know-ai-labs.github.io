@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=Almendra+Display&family=Almendra+SC&family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Ysabeau+SC:wght@1..1000&family=Ysabeau:ital,wght@0,1..1000;1,1..1000&display=swap');
+
+/* --- Root Variables and Resets --- */
+:root {
+    /* Primary IBM Blue */
+    --color-primary: white/*#0f62fe*/;
+    /* Dark Text Color */
+    --color-dark: #161616;
+    /* Light Background */
+    --color-background: #f4f4f4;
+    /* Rich Blue/Purple for Tile Hover (A dynamic dark color) */
+    --color-hover-bg: #da291c/*#453a94*/;
+    --color-light: #ffffff;
+
+    --font-heading: 'Google Sans Code', cursive;
+    --font-body: 'Ysabeau', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    background-color: var(--color-background);
+    color: var(--color-dark);
+}
+
+
+
+/* --- Hero/Intro Tile Styling (Kept Clean and Bold) --- */
+footer {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+    padding: 60px 5%;
+    text-align: center;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+}
+.hero-tile {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+    padding: 60px 5%;
+    text-align: center;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    /* Keep it flat and clean */
+}
+
+/* ... (Hero content styles remain the same) ... */
+
+.hero-tile h1 {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    margin-bottom: 0.1em;
+}
+
+.hero-tile h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.hero-tile p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+
+/* CTA Button - Flat and professional */
+.cta-button {
+    display: inline-block;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border: 2px solid var(--color-dark);
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 2em;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1.2em;
+}
+
+.cta-button:hover {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    color: var(--color-light);
+    border-color: #23a6d5;
+}
+
+/* --- Tiled Grid Layout --- */
+.tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 0;
+    padding: 1em 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tile {
+    /* Set up the initial state of the tile */
+    background-color: var(--color-light);
+    border-radius: 0;
+    padding: 0.5em 0.5em 1em 1em;
+    /* Use a light border instead of a heavy shadow for a less busy look */
+    border: 1px solid #e0e0e0;
+
+    /* Set up transition for the background/color changes */
+    transition: background-color 0.4s ease-out;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    /* Crucial: Hides the text before it falls in */
+    position: relative;
+    /* Crucial: Establishes a context for the content positioning */
+    cursor: pointer;
+}
+
+/* Container for the content inside the tile */
+.tile-content {
+    /* We'll use this container to apply the "falling in" animation */
+    transition: transform 1s ease-out, opacity 1s ease-out;
+    transform: translateY(0);
+    /* Initial position is normal */
+    opacity: 1;
+    /* Initial opacity is full */
+}
+
+/* Apply the content class to the tile text elements in HTML */
+/* You need to wrap the h3, p, and span in a div with class="tile-content" in your HTML */
+/* For example: <div class="tile-content"> <h3>...</h3> <p>...</p> </div> */
+
+.tile-content h3 {
+    color: var(--color-dark);
+}
+
+/* --- THE DYNAMIC HOVER EFFECT 
+
+.tile:hover {
+    background-color: var(--color-hover-bg);
+    border-color: var(--color-hover-bg);
+    .tileIcon {
+        color: var(--color-light);
+    }
+}--- */
+.tile:hover {
+    /* Codepen gradient bg */
+    
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    .tileIcon {
+        color: var(--color-light);
+        transform: translateY(0.5em);
+        opacity: 0.85;
+    }
+   
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.tile:hover .tile-content {
+    transform: translateY(0.5em);
+    opacity: 0.85;
+}
+
+/* Change the text color inside the tile on hover to white */
+.tile:hover h3,
+.tile:hover p,
+.tile:hover .focus-tag {
+    color: var(--color-light);
+}
+
+/* Adjust the focus tag appearance on hover for better contrast */
+.tile:hover .focus-tag {
+    background-color: rgba(255, 255, 255, 0.2);
+    /* Semi-transparent white */
+    border-color: var(--color-light);
+}
+
+/* General text styles for tiles (applied inside .tile-content) */
+.tile h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    transition: color 0.4s;
+}
+
+.tile p {
+    font-weight: 400;
+    margin-bottom: 0.2em;
+    flex-grow: 1;
+    transition: color 0.4s;
+    font-size: 1.2em;
+}
+.tile img {
+    max-width: 50%;
+    max-height: 50%;
+}
+.adjust-top {
+    margin-top: 1em;
+}
+.adjust-bottom {
+    margin-bottom: 1em;
+}
+.focus-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: var(--color-light);
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--color-primary);
+    border-radius: 2em;
+    align-self: flex-start;
+    transition: background-color 0.4s, color 0.4s, border-color 0.4s;
+}
+        
+.tileIcon {
+    font-family: 'Material Symbols Outlined';
+    color: var(--color-hover-bg);
+    font-size: 3em;
+    stroke-width: 0.1px;
+}
+
+
+
+/* --- Responsive Adjustments (Three Column Logic) --- */
+
+/* Desktop/Wide Screen Layout: Max 3 columns */
+@media (min-width: 960px) {
+    .tile-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablet/Medium Screen Layout: 2 columns */
+@media (min-width: 601px) and (max-width: 959px) {
+    .tile-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile Adjustments: Stack everything in a single column */
+@media (max-width: 600px) {
+    .hero-tile h1 {
+        font-size: 3rem;
+    }
+
+    .hero-tile h2 {
+        font-size: 1.5rem;
+    }
+
+    .tile-grid {
+        grid-template-columns: 1fr;
+        padding: 1em 5%;
+    }
+}

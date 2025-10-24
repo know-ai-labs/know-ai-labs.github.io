@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Integration Learning Hub</title>
+    <!-- Load Tailwind CSS via CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Material Symbols Outlined font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400"
+      rel="stylesheet"
+    />
+    <style>
+      /* Define the Inter font family */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+      /* Custom styles */
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #0d1117; /* Dark background */
+      }
+      .card {
+        background-color: #161b22; /* Slightly lighter dark card background */
+        border: 1px solid #30363d;
+      }
+      .material-symbols-outlined {
+        font-size: 1.25rem; /* Standard icon size */
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <!-- Simple in-app notification for score changes -->
+    <div
+      id="notification-message"
+      class="fixed top-4 right-4 z-50 p-3 rounded-lg shadow-xl text-white font-bold transition-opacity duration-500 opacity-0 bg-green-600"
+    ></div>
+
+    <div id="app" class="p-4 sm:p-8">
+      <header class="mb-8 p-4 bg-gray-800 rounded-xl shadow-lg">
+        <div
+          class="flex flex-col sm:flex-row sm:justify-between sm:items-center"
+        >
+          <div class="mb-4 sm:mb-0">
+            <h1
+              class="text-3xl sm:text-4xl font-extrabold text-indigo-400 mb-1 flex items-center"
+            >
+              <!-- Material Icon: trending_up -->
+              <span class="material-symbols-outlined text-4xl mr-3"
+                >network_intel_node</span
+              >
+              AI Integration Learning Hub
+            </h1>
+            <p class="text-gray-400 text-lg">
+              Self-Teaching Modules: Systems, Design, and Adaptive Intelligence
+            </p>
+          </div>
+          <div
+            class="text-right p-3 card rounded-xl border-l-4 border-green-500"
+          >
+            <p class="text-sm text-gray-400 uppercase tracking-wider">
+              Mastery Score
+            </p>
+            <p id="score-display" class="text-3xl font-bold text-green-400">
+              0
+            </p>
+            <p id="progress-display" class="text-xs text-gray-500 mt-1"></p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <nav
+        id="nav-tabs"
+        class="sticky top-0 z-10 bg-gray-800 rounded-xl p-2 mb-8 flex flex-wrap justify-start gap-2 sm:gap-4 shadow-xl border border-gray-700"
+      ></nav>
+
+      <!-- Content Area -->
+      <main
+        class="bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl min-h-[60vh] border border-gray-700"
+      >
+        <!-- Content sections will be rendered here -->
+        <div id="content-container"></div>
+      </main>
+
+      <footer class="mt-12 text-center text-gray-500 text-xs py-4">
+        Built as an Interactive Learning Artifact using HTML, JS, and Tailwind
+        CSS.
+      </footer>
+    </div>
+
+    <script>
+      // --- Core Application State & Constants ---
+      const state = {
+        activeSection: "Overview",
+        score: 0, // NEW: Score tracker
+        moduleStatus: {
+          // NEW: Track completion status
+          SystemsThinking: false, // Quiz completion
+          DesignThinking: true, // Treated as complete as it's exploratory
+          MetaLearning: false, // Simulation completion
+        },
+        systemsThinking: {
+          scenario: "bias",
+          selection: null,
+          isAnswered: false,
+        },
+        designThinking: {
+          persona: "Analyst",
+        },
+        metaLearning: {
+          adaptSpeed: 0,
+          modelType: "Standard",
+          message: "",
+          interval: null,
+          isSimulating: false, // Prevent multiple starts
+        },
+      };
+
+      // Material Icon names are used here
+      const SECTIONS = [
+        {
+          id: "Overview",
+          name: "Framework Overview",
+          icon: '<span class="material-symbols-outlined icon-color-placeholder">dashboard</span>',
+          iconId: "dashboard",
+        },
+        {
+          id: "SystemsThinking",
+          name: "Systems Thinking Deep Dive",
+          icon: '<span class="material-symbols-outlined icon-color-placeholder">link</span>',
+          iconId: "link",
+        },
+        {
+          id: "DesignThinking",
+          name: "Design Thinking Deep Dive",
+          icon: '<span class="material-symbols-outlined icon-color-placeholder">lightbulb</span>',
+          iconId: "lightbulb",
+        },
+        {
+          id: "MetaLearning",
+          name: "Meta-Learning Deep Dive",
+          icon: '<span class="material-symbols-outlined icon-color-placeholder">autorenew</span>',
+          iconId: "autorenew",
+        },
+      ];
+
+      // --- Shared Material Symbols Icons ---
+      const ICONS = {
+        link: '<span class="material-symbols-outlined w-5 h-5 mr-2 text-indigo-400">link</span>',
+        lightbulb:
+          '<span class="material-symbols-outlined w-5 h-5 mr-2 text-indigo-400">lightbulb</span>',
+        autorenew:
+          '<span class="material-symbols-outlined w-5 h-5 mr-2 text-indigo-400">autorenew</span>',
+        ArrowRight:
+          '<span class="material-symbols-outlined w-4 h-4 text-gray-500">arrow_forward</span>',
+        CheckCircle:
+          '<span class="material-symbols-outlined w-5 h-5 inline mr-2 text-green-400">task_alt</span>',
+        XCircle:
+          '<span class="material-symbols-outlined w-5 h-5 inline mr-2 text-red-400">cancel</span>',
+        Trophy:
+          '<span class="material-symbols-outlined w-5 h-5 ml-2 text-green-400">workspace_premium</span>',
+        Star: '<span class="material-symbols-outlined w-4 h-4 text-yellow-400 ml-1">star</span>',
+      };
+
+      // --- Data Definitions ---
+      const SCENARIOS = {
+        bias: {
+          id: "bias",
+          points: 100,
+          title: "Scenario 1: The Bias Feedback Loop",
+          description:
+            "An AI system used by a bank to approve small business loans disproportionately rejects applications from a specific neighborhood, based on historical data. When the human loan officers see the AI's rejection, they tend to approve fewer applications from that area, reinforcing the system's pattern.",
+          question: "What kind of feedback loop is at play?",
+          options: [
+            {
+              id: "positive",
+              text: "Positive (Reinforcing) Loop",
+              correct: true,
+              explanation:
+                "Correct! The initial bias is amplified by the human action, which creates more biased data, leading to an accelerating, self-fulfilling negative outcome.",
+            },
+            {
+              id: "negative",
+              text: "Negative (Balancing) Loop",
+              correct: false,
+              explanation:
+                "A balancing loop would seek equilibrium. For example, if the human officers deliberately counter-acted the AI's bias, that would be a negative loop.",
+            },
+          ],
+        },
+        efficiency: {
+          id: "efficiency",
+          points: 100,
+          title: "Scenario 2: The Efficiency Trap",
+          description:
+            "A manufacturing plant integrates an AI to optimize assembly line speed. The AI succeeds, but the increased speed causes human workers to skip non-critical safety checks to keep up, subtly increasing the risk of mechanical failure over time.",
+          question: "What systemic component was overlooked?",
+          options: [
+            {
+              id: "purpose",
+              text: "Misaligned Purpose (Ignoring Safety)",
+              correct: true,
+              explanation:
+                "Correct! The primary purpose (safe, quality production) was undermined by optimizing only one element (speed). Systems Thinking demands aligning all elements to the overarching purpose.",
+            },
+            {
+              id: "data",
+              text: "Insufficient Data Volume",
+              correct: false,
+              explanation:
+                "While data is important, the core failure here is the interaction between the AI element and the human process element, leading to unintended consequences.",
+            },
+          ],
+        },
+      };
+
+      const PERSONA_DATA = {
+        Analyst: {
+          title: "Financial Analyst 'Anya'",
+          needs: "Explainability (XAI), Speed, Trustworthiness.",
+          aiInsight:
+            "NLP analysis of thousands of analyst meeting transcripts shows **'Risk of Black Box'** is the number one pain point, even above speed.",
+        },
+        Customer: {
+          title: "E-commerce Shopper 'Chris'",
+          needs: "Simplicity, Reliability, Ethical Use of Data.",
+          aiInsight:
+            "Behavioral analytics heatmap reveals 70% of users drop off when asked to consent to **'Aggregated Data Sharing'**, signaling trust erosion.",
+        },
+      };
+
+      // --- Utility Functions ---
+
+      /**
+       * Clears any running simulation interval.
+       */
+      function stopSimulation() {
+        if (state.metaLearning.interval) {
+          clearInterval(state.metaLearning.interval);
+          state.metaLearning.interval = null;
+          state.metaLearning.isSimulating = false;
+        }
+      }
+
+      /**
+       * Displays a notification message for a short time.
+       * @param {string} message - The message to display.
+       */
+      function showNotification(message) {
+        const el = document.getElementById("notification-message");
+        el.innerHTML = message; // Use innerHTML to allow icon display
+        el.style.opacity = "1";
+
+        setTimeout(() => {
+          el.style.opacity = "0";
+        }, 3000);
+      }
+
+      /**
+       * Attempts to update module completion status and score.
+       * @param {string} moduleId - The ID of the module to complete.
+       * @param {number} points - The points to award.
+       */
+      function tryUpdateCompletion(moduleId, points) {
+        if (!state.moduleStatus[moduleId]) {
+          state.moduleStatus[moduleId] = true;
+          state.score += points;
+          renderScore();
+          showNotification(`Module Complete! +${points} Mastery Points!`);
+        }
+      }
+
+      /**
+       * Renders the score and progress in the header.
+       */
+      function renderScore() {
+        const scoreEl = document.getElementById("score-display");
+        const progressEl = document.getElementById("progress-display");
+        const completedCount = Object.values(state.moduleStatus).filter(
+          (status) => status
+        ).length;
+        const totalModules = Object.keys(state.moduleStatus).length;
+
+        if (scoreEl) scoreEl.textContent = state.score;
+        if (progressEl)
+          progressEl.textContent = `Progress: ${completedCount}/${totalModules} Modules Complete`;
+
+        // Check for 100% completion
+        if (completedCount === totalModules) {
+          showNotification(
+            `CONGRATULATIONS! ALL MODULES MASTERED! ${ICONS.Trophy}`
+          );
+        }
+      }
+
+      /**
+       * Renders the navigation tabs based on the current state.
+       */
+      function renderNav() {
+        const navContainer = document.getElementById("nav-tabs");
+        if (!navContainer) return;
+
+        navContainer.innerHTML = SECTIONS.slice(1)
+          .map((section) => {
+            const isActive = state.activeSection === section.id;
+            const isComplete = state.moduleStatus[section.id];
+
+            // Replace the placeholder with the correct classes for the icon
+            let iconHtml = section.icon.replace(
+              "icon-color-placeholder",
+              `w-5 h-5 mr-2 ${
+                isComplete ? "text-green-400" : "text-indigo-400"
+              }`
+            );
+
+            return `
+                    <button
+                        onclick="setActiveSection('${section.id}')"
+                        class="nav-button px-4 py-2 font-semibold text-sm sm:text-base rounded-lg transition-colors flex items-center
+                            ${
+                              isActive
+                                ? "bg-indigo-600 text-white shadow-md"
+                                : "text-gray-400 hover:bg-gray-700"
+                            }"
+                    >
+                        ${isComplete ? ICONS.Star : ""}
+                        ${iconHtml}
+                        ${section.name}
+                    </button>
+                `;
+          })
+          .join("");
+      }
+
+      /**
+       * Sets the active section, re-renders the navigation, and renders the content.
+       * @param {string} sectionId - The ID of the section to activate.
+       */
+      function setActiveSection(sectionId) {
+        // Stop any running simulation when leaving the MetaLearning section
+        if (state.activeSection === "MetaLearning") {
+          stopSimulation();
+        }
+        state.activeSection = sectionId;
+        renderNav();
+        renderContent();
+      }
+
+      // --- Module Rendering Functions ---
+
+      function renderOverview() {
+        const completedCount = Object.values(state.moduleStatus).filter(
+          (status) => status
+        ).length;
+        const totalModules = Object.keys(state.moduleStatus).length;
+        const allComplete = completedCount === totalModules;
+
+        // Get the Overview icon from the SECTIONS array for the card display
+        const overviewIcon = SECTIONS.find(
+          (s) => s.id === "Overview"
+        ).icon.replace(
+          "icon-color-placeholder",
+          "w-5 h-5 mr-2 text-indigo-400"
+        );
+
+        return `
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-indigo-300">The Adaptive AI Strategy: Three Pillars</h2>
+                    <p class="text-gray-400 leading-relaxed">
+                        Integrating AI is a journey of continuous change. This framework provides the 
+                        <strong>vision</strong> (Systems Thinking), the 
+                        <strong>method</strong> (Design Thinking), and the 
+                        <strong>engine</strong> (Meta-Learning) needed to create intelligent systems that are sustainable, trustworthy, and human-aligned. 
+                        Complete the challenges in each section to earn <strong>Mastery Points</strong> and progress towards full certification!
+                    </p>
+
+                    ${
+                      allComplete
+                        ? `
+                        <div class="p-4 bg-green-900/40 border-l-4 border-green-500 rounded-lg text-white font-bold text-xl flex items-center">
+                            ${ICONS.Trophy.replace(
+                              "ml-2",
+                              "mr-2 ml-0"
+                            )} ALL MODULES MASTERED! Your total score is ${
+                            state.score
+                          }.
+                        </div>
+                    `
+                        : ""
+                    }
+
+                    <div class="grid md:grid-cols-3 gap-6 pt-4">
+                        ${SECTIONS.slice(1)
+                          .map((section) => {
+                            const isComplete = state.moduleStatus[section.id];
+                            // Get the icon and apply color based on completion status
+                            const iconHtml = section.icon.replace(
+                              "icon-color-placeholder",
+                              `w-5 h-5 mr-2 ${
+                                isComplete
+                                  ? "text-green-400"
+                                  : "text-indigo-400"
+                              }`
+                            );
+
+                            return `
+                                <div onclick="setActiveSection('${
+                                  section.id
+                                }')" class="p-6 card rounded-xl border-t-4 ${
+                              isComplete
+                                ? "border-green-600"
+                                : "border-indigo-600"
+                            } hover:bg-gray-800 transition duration-300 cursor-pointer">
+                                    <div class="flex justify-between items-start">
+                                        ${iconHtml}
+                                        ${isComplete ? ICONS.Star : ""}
+                                    </div>
+                                    <h3 class="font-semibold text-xl text-white mb-2">${section.name.replace(
+                                      " Deep Dive",
+                                      ""
+                                    )}</h3>
+                                    <p class="text-sm text-gray-400">
+                                        ${
+                                          section.id === "SystemsThinking"
+                                            ? "Focuses on complex interdependencies, feedback loops, and emergent behavior in the human-AI system. (Challenge: Quiz)"
+                                            : ""
+                                        }
+                                        ${
+                                          section.id === "DesignThinking"
+                                            ? "Ensures solutions are human-centered, balancing desirability with technical feasibility and business viability. (Exploration)"
+                                            : ""
+                                        }
+                                        ${
+                                          section.id === "MetaLearning"
+                                            ? "Cultivates the capacity for rapid adaptation and 'learning how to learn' to combat data drift and nonstationarity. (Challenge: Simulation)"
+                                            : ""
+                                        }
+                                    </p>
+                                    <span class="mt-3 inline-block text-xs font-bold px-2 py-1 rounded ${
+                                      isComplete
+                                        ? "bg-green-700 text-white"
+                                        : "bg-indigo-700 text-indigo-100"
+                                    }">
+                                        Status: ${
+                                          isComplete ? "COMPLETE" : "PENDING"
+                                        }
+                                    </span>
+                                </div>
+                            `;
+                          })
+                          .join("")}
+                    </div>
+                </div>
+            `;
+      }
+
+      // --- Systems Thinking Logic ---
+
+      function handleQuizSubmit(optionId) {
+        if (state.systemsThinking.isAnswered) return; // Prevent resubmitting
+
+        state.systemsThinking.selection = optionId;
+        state.systemsThinking.isAnswered = true;
+
+        const currentScenario = SCENARIOS[state.systemsThinking.scenario];
+        const selectedOption = currentScenario.options.find(
+          (opt) => opt.id === optionId
+        );
+
+        if (selectedOption.correct) {
+          // Award points only for the first correct answer of the *module*
+          tryUpdateCompletion("SystemsThinking", currentScenario.points);
+        }
+
+        renderContent(); // Re-render to show feedback
+      }
+
+      function handleQuizReset() {
+        const currentScenarioKey = state.systemsThinking.scenario;
+        state.systemsThinking.scenario =
+          currentScenarioKey === "bias" ? "efficiency" : "bias";
+        state.systemsThinking.selection = null;
+        state.systemsThinking.isAnswered = false;
+        renderContent(); // Re-render to show the new scenario
+      }
+
+      function renderSystemsThinking() {
+        const currentScenario = SCENARIOS[state.systemsThinking.scenario];
+        const { selection, isAnswered } = state.systemsThinking;
+        const isModuleComplete = state.moduleStatus.SystemsThinking;
+
+        const moduleStatusHtml = isModuleComplete
+          ? `<p class="text-green-400 font-bold flex items-center">${ICONS.CheckCircle.replace(
+              "text-green-400",
+              "text-green-400"
+            )} Module Complete! Earned ${currentScenario.points} Points.</p>`
+          : `<p class="text-gray-400">Answer correctly to complete the Systems Thinking module and earn **${currentScenario.points} Points**.</p>`;
+
+        const explanationHtml = isAnswered
+          ? `<div class="mt-4 p-4 rounded-lg bg-gray-700 border-l-4 border-indigo-500">
+                        <p class="font-semibold text-indigo-400">Explanation:</p>
+                        <p class="text-gray-300">
+                            ${
+                              currentScenario.options.find(
+                                (opt) => opt.id === selection
+                              ).explanation
+                            }
+                        </p>
+                    </div>`
+          : "";
+
+        const optionsHtml = currentScenario.options
+          .map((option) => {
+            let btnClass = "bg-gray-700 hover:bg-gray-600 cursor-pointer";
+            let icon = "";
+
+            if (isAnswered) {
+              if (option.correct) {
+                btnClass = "bg-green-800 border-2 border-green-400 text-white";
+                icon = ICONS.CheckCircle;
+              } else if (selection === option.id) {
+                btnClass = "bg-red-800 border-2 border-red-400 text-white";
+                icon = ICONS.XCircle;
+              } else {
+                btnClass = "bg-gray-700/50 text-gray-500 cursor-not-allowed";
+              }
+            }
+
+            return `
+                    <button
+                        onclick="${
+                          isAnswered
+                            ? "void(0)"
+                            : `handleQuizSubmit('${option.id}')`
+                        }"
+                        ${isAnswered ? "disabled" : ""}
+                        class="p-4 rounded-lg text-left transition-all duration-300 ${btnClass} disabled:cursor-not-allowed"
+                    >
+                        ${icon}
+                        ${option.text}
+                    </button>
+                `;
+          })
+          .join("");
+
+        return `
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-indigo-300">Systems Thinking: Understanding Interdependencies</h2>
+                    <p class="text-gray-400">Systems Thinking (ST) forces us to see the bigger picture: how AI interacts with human behavior, organizational structures, and the environment. Use the module below to test your understanding of <strong>feedback loops</strong>.</p>
+                    
+                    ${moduleStatusHtml}
+
+                    <div class="card p-6 rounded-xl space-y-4">
+                        <h3 class="text-xl font-semibold text-white flex items-center">
+                            ${ICONS.link} ${currentScenario.title}
+                        </h3>
+                        <p class="text-gray-300 italic p-3 bg-gray-800/50 rounded-lg border-l-4 border-indigo-600">${
+                          currentScenario.description
+                        }</p>
+                        
+                        <p class="font-medium text-lg pt-2 text-indigo-200">${
+                          currentScenario.question
+                        }</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            ${optionsHtml}
+                        </div>
+
+                        ${explanationHtml}
+
+                        <button
+                            onclick="handleQuizReset()"
+                            class="mt-4 w-full md:w-auto px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold text-white transition duration-200 flex items-center justify-center"
+                        >
+                            ${ICONS.autorenew
+                              .replace(
+                                'class="w-5 h-5 mr-2 text-indigo-400"',
+                                'class="w-4 h-4 mr-2"'
+                              )
+                              .replace(
+                                "text-indigo-400",
+                                "text-white"
+                              )} View Next Scenario
+                        </button>
+                    </div>
+                </div>
+            `;
+      }
+
+      // --- Design Thinking Logic (No changes, as it's not a scorable challenge) ---
+
+      function setPersona(persona) {
+        state.designThinking.persona = persona;
+        renderContent(); // Re-render to update persona details
+      }
+
+      function renderDesignThinking() {
+        const currentPersona = PERSONA_DATA[state.designThinking.persona];
+
+        return `
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-indigo-300">Design Thinking: The Empathy Phase</h2>
+                    <p class="text-gray-400">Design Thinking (DT) ensures your AI solution is <strong>desirable</strong>. The process begins with <strong>Empathy</strong>. Use the interactive tool below to explore how AI-driven user research can inform Human-Centered AI (HCAI).</p>
+
+                    <div class="card p-6 rounded-xl space-y-6">
+                        <h3 class="text-xl font-semibold text-white flex items-center">
+                            ${ICONS.lightbulb} Design Step: EMPATHY
+                        </h3>
+                        <p class="text-green-400 font-bold flex items-center">${ICONS.CheckCircle.replace(
+                          "text-green-400",
+                          "text-green-400"
+                        )} Exploration Module Complete.</p>
+
+
+                        <div class="flex space-x-4">
+                            <button
+                                onclick="setPersona('Analyst')"
+                                class="px-4 py-2 rounded-full font-semibold transition-colors ${
+                                  state.designThinking.persona === "Analyst"
+                                    ? "bg-indigo-600 text-white"
+                                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                                }"
+                            >
+                                Persona: Financial Analyst
+                            </button>
+                            <button
+                                onclick="setPersona('Customer')"
+                                class="px-4 py-2 rounded-full font-semibold transition-colors ${
+                                  state.designThinking.persona === "Customer"
+                                    ? "bg-indigo-600 text-white"
+                                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                                }"
+                            >
+                                Persona: E-commerce Shopper
+                            </button>
+                        </div>
+
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <p class="font-bold text-lg text-indigo-400">${
+                              currentPersona.title
+                            }</p>
+                            <p class="text-sm text-gray-400">Core Needs: ${
+                              currentPersona.needs
+                            }</p>
+                        </div>
+
+                        <div class="border-t border-gray-700 pt-4">
+                            <p class="font-bold text-white mb-2">AI-Driven Insight Synthesis:</p>
+                            <div class="p-4 rounded-lg bg-indigo-900/40 border-l-4 border-indigo-500">
+                                <p class="text-gray-200 font-medium">${
+                                  currentPersona.aiInsight
+                                }</p>
+                                <p class="text-xs italic mt-2 text-indigo-300">This synthesis accelerates the 'Define' phase by spotting patterns human analysts might miss in raw data.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-between items-center border-t border-gray-700">
+                            <span class="text-sm text-gray-400">DT Process Flow:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="px-3 py-1 bg-indigo-500 rounded-full text-xs font-bold">1. Empathize</span>
+                                ${ICONS.ArrowRight}
+                                <span class="px-3 py-1 bg-gray-600 rounded-full text-xs">2. Define</span>
+                                ${ICONS.ArrowRight}
+                                <span class="px-3 py-1 bg-gray-600 rounded-full text-xs">3. Ideate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // --- Meta-Learning Logic ---
+
+      function handleSimulate(type) {
+        if (state.metaLearning.isSimulating) return; // Prevent double-clicking
+
+        stopSimulation();
+
+        state.metaLearning.modelType = type;
+        state.metaLearning.adaptSpeed = 0;
+        state.metaLearning.message = "Simulating...";
+        state.metaLearning.isSimulating = true;
+
+        // Initial re-render to set up the UI for simulation start
+        renderContent();
+
+        const targetSpeed = type === "Meta" ? 20 : 5;
+        let currentSpeed = 0;
+
+        state.metaLearning.interval = setInterval(() => {
+          currentSpeed += 1;
+          state.metaLearning.adaptSpeed = currentSpeed;
+
+          if (currentSpeed >= targetSpeed) {
+            stopSimulation();
+            state.metaLearning.adaptSpeed = targetSpeed;
+
+            if (type === "Meta") {
+              state.metaLearning.message =
+                "Meta-Learner: Adaptation complete in 20 cycles (Few-Shot Efficiency). **POINTS AWARDED!**";
+              // Award points only for successfully running the Meta-Learner sim
+              tryUpdateCompletion("MetaLearning", 150);
+            } else {
+              state.metaLearning.message =
+                "Standard Model: Adaptation complete in 5 cycles (Basic Update).";
+            }
+          }
+          renderContent(); // Re-render state change
+        }, 100);
+      }
+
+      function renderMetaLearning() {
+        const { adaptSpeed, modelType, message } = state.metaLearning;
+        const targetSpeed = modelType === "Meta" ? 20 : 5;
+        const progressWidth = Math.min(100, (adaptSpeed / targetSpeed) * 100);
+        const isModuleComplete = state.moduleStatus.MetaLearning;
+
+        const moduleStatusHtml = isModuleComplete
+          ? `<p class="text-green-400 font-bold flex items-center">${ICONS.CheckCircle.replace(
+              "text-green-400",
+              "text-green-400"
+            )} Module Complete! Earned 150 Mastery Points.</p>`
+          : `<p class="text-gray-400">Run the **Meta-Learner Simulation** successfully to complete the module and earn **150 Points**.</p>`;
+
+        return `
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-indigo-300">Meta-Learning: Learning to Learn</h2>
+                    <p class="text-gray-400">Meta-Learning is critical for AI in <strong>nonstationary environments</strong> (where data changes constantly). It teaches the model to optimize its <em>own</em> learning strategies, enabling <strong>fast adaptation</strong> to new tasks (Few-Shot Learning) without <em>catastrophic forgetting</em>.</p>
+
+                    ${moduleStatusHtml}
+
+                    <div class="card p-6 rounded-xl space-y-4">
+                        <h3 class="text-xl font-semibold text-white flex items-center">
+                            ${ICONS.autorenew} Adaptation Speed Simulator
+                        </h3>
+                        
+                        <p class="text-gray-300">Simulate how a <strong>Standard Model</strong> (basic update) and a <strong>Meta-Learner</strong> (MAML-style) adapt to a new, but related, data pattern. Run the Meta-Learner to complete the challenge!</p>
+
+                        <div class="flex space-x-4">
+                            <button 
+                                onclick="handleSimulate('Standard')"
+                                ${
+                                  state.metaLearning.isSimulating
+                                    ? "disabled"
+                                    : ""
+                                }
+                                class="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold text-white transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Standard Model (5 Cycles)
+                            </button>
+                            <button 
+                                onclick="handleSimulate('Meta')"
+                                ${
+                                  state.metaLearning.isSimulating
+                                    ? "disabled"
+                                    : ""
+                                }
+                                class="flex-1 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold text-white transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Meta-Learner (20 Cycles)
+                            </button>
+                        </div>
+
+                        <div class="mt-4 p-4 bg-gray-800 rounded-lg">
+                            <p class="text-sm font-semibold text-indigo-400 mb-1">Current Adaptation Cycles: ${adaptSpeed}</p>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div 
+                                    style="width: ${progressWidth}%;"
+                                    class="h-3 rounded-full transition-all duration-100 ${
+                                      modelType === "Meta"
+                                        ? "bg-indigo-500"
+                                        : "bg-gray-500"
+                                    }"
+                                ></div>
+                            </div>
+                            <p class="mt-3 font-medium ${
+                              modelType === "Standard"
+                                ? "text-gray-300"
+                                : "text-indigo-200"
+                            }">${message}</p>
+                            <p class="text-xs italic mt-1 text-gray-400">The Meta-Learner is slow to initially train, but adapts much faster to new related tasks (Few-Shot).</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      /**
+       * The main content rendering function (equivalent to React's render phase).
+       */
+      function renderContent() {
+        const container = document.getElementById("content-container");
+        if (!container) return;
+
+        // Render content based on the active section
+        switch (state.activeSection) {
+          case "SystemsThinking":
+            container.innerHTML = renderSystemsThinking();
+            break;
+          case "DesignThinking":
+            container.innerHTML = renderDesignThinking();
+            break;
+          case "MetaLearning":
+            container.innerHTML = renderMetaLearning();
+            break;
+          case "Overview":
+          default:
+            container.innerHTML = renderOverview();
+            break;
+        }
+      }
+
+      // --- Initialization ---
+
+      window.onload = function () {
+        // Initial render of navigation, content, and score
+        renderNav();
+        renderContent();
+        renderScore();
+      };
+    </script>
+  </body>
+</html>
