@@ -55,7 +55,6 @@ footer {
     box-shadow: none;
     /* Keep it flat and clean */
 }
-
 /* ... (Hero content styles remain the same) ... */
 
 .hero-tile h1 {
@@ -98,6 +97,22 @@ footer {
 }
 
 /* --- Tiled Grid Layout --- */
+.two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 1em 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.grid-col {
+    padding: 0.5em;
+    font-size: 1.3em;
+    img {
+        max-width: 120%;
+    }
+}
+
 .tile-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
