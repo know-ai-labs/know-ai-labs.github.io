@@ -29,7 +29,10 @@ body {
     color: var(--color-dark);
 }
 
-
+h1.centre {
+    text-align: center;
+    margin: auto;
+}
 
 /* --- Hero/Intro Tile Styling (Kept Clean and Bold) --- */
 footer {
@@ -80,7 +83,7 @@ footer {
     background-color: var(--color-light);
     color: var(--color-dark);
     border: 2px solid var(--color-dark);
-    padding: 12px 30px;
+    padding: 0.2em 1em;
     text-decoration: none;
     font-weight: 600;
     border-radius: 2em;
@@ -94,6 +97,9 @@ footer {
     animation: gradient 15s ease infinite;
     color: var(--color-light);
     border-color: #23a6d5;
+    .icon {
+        color: white;
+    }
 }
 
 /* --- Tiled Grid Layout --- */
@@ -256,13 +262,19 @@ footer {
     transition: background-color 0.4s, color 0.4s, border-color 0.4s;
 }
         
-.tileIcon {
+.tileIcon, .icon {
     font-family: 'Material Symbols Outlined';
     color: var(--color-hover-bg);
     font-size: 3em;
     stroke-width: 0.1px;
 }
-
+.icon {
+    font-size: 2em;
+    color: var(--color-dark);
+    display: inline-flex;
+    vertical-align: middle;
+    padding-bottom: 0.1em;
+}
 
 
 /* --- Responsive Adjustments (Three Column Logic) --- */
