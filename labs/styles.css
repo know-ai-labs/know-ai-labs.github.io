@@ -151,6 +151,7 @@ footer {
     position: relative;
     /* Crucial: Establishes a context for the content positioning */
     cursor: pointer;
+    
 }
 
 /* Container for the content inside the tile */
@@ -160,16 +161,12 @@ footer {
     transform: translateY(0);
     /* Initial position is normal */
     opacity: 1;
+    h3 {
+            color: var(--color-hover-bg);
+    }
     /* Initial opacity is full */
 }
 
-/* Apply the content class to the tile text elements in HTML */
-/* You need to wrap the h3, p, and span in a div with class="tile-content" in your HTML */
-/* For example: <div class="tile-content"> <h3>...</h3> <p>...</p> </div> */
-
-.tile-content h3 {
-    color: var(--color-dark);
-}
 
 /* --- THE DYNAMIC HOVER EFFECT 
 
@@ -281,7 +278,6 @@ footer {
 .red {
     color: var(--color-hover-bg);
 }
-
 
 /* --- Responsive Adjustments (Three Column Logic) --- */
 
