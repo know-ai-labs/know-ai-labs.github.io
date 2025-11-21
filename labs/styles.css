@@ -27,6 +27,7 @@ body {
     line-height: 1.6;
     background-color: var(--color-background);
     color: var(--color-dark);
+    font-size: 1.2em;
 }
 
 h1.centre {
