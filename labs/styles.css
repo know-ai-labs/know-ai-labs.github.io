@@ -151,6 +151,7 @@ footer {
     position: relative;
     /* Crucial: Establishes a context for the content positioning */
     cursor: pointer;
+    min-height: 20em;
     
 }
 
