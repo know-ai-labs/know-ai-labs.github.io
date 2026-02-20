@@ -11,6 +11,7 @@
     /* Rich Blue/Purple for Tile Hover (A dynamic dark color) */
     --color-hover-bg: #da291c/*#453a94*/;
     --color-light: #ffffff;
+    --color-lightish: #ff3;
 
     --font-heading: 'Google Sans Code', cursive;
     --font-body: 'Ysabeau', sans-serif;
@@ -213,10 +214,12 @@ footer {
 }
 
 /* Change the text color inside the tile on hover to white */
-.tile:hover h3,
 .tile:hover p,
 .tile:hover .focus-tag {
     color: var(--color-light);
+}
+.tile:hover h3 {
+    color: var(--color-lightish);
 }
 
 /* Adjust the focus tag appearance on hover for better contrast */
